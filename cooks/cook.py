@@ -1,6 +1,7 @@
 from threading import Thread
 from components.orders import *
 import requests
+import time
 
 # Customized Waiter class extending the Thread class
 class Cook(Thread):
@@ -19,13 +20,16 @@ class Cook(Thread):
         try:
             order = order_queue.get()
             number_of_foods = order['items_number']
-            for f in range(0, number_of_foods):
+            for _ in range(0, number_of_foods):
                 food = ordered_food_queue.get()
-                print(f'The cook finished cooking the food nr.{food["food_id"]} from the order nr.{food["order_id"]}.')
+                time.sleep(1)
+                print(f'The cook finished cooking the food nr.{food["food_id"]} from the order nr.{order["order_id"]}.\n')
                 ordered_food_queue.task_done()
-            order_queue.task_done()
+            print(f'The cook finished cooking the order nr.{order["order_id"]}. It took {number_of_foods} time units to prepare it. Sending it to the table.\n')
+            time.sleep(2)
             # Put the order data in a dictionary
-            payload = dict({'table_id': order['table_id'], 'order_id': order['id'], 'items': order['items'], 'priority': order['priority']})
+            payload = dict({'table_id': order['table_id'], 'order_id': order['order_id'], 'items': order['items'], 'priority': order['priority']})
             requests.post('http://localhost:3000/distribution', json = payload, timeout = 0.0001)
-        except (Exception, requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError):
+            order_queue.task_done()
+        except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError):
             pass

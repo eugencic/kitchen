@@ -9,6 +9,7 @@ def order():
     data = request.get_json()
     add_order(data)
     print(f' A new order is received from the waiter. Order nr.{data["order_id"]}')
+    return {'success': True}
 
 def add_order(order):
     received_order = {

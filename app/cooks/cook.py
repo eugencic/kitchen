@@ -29,7 +29,7 @@ class Cook(Thread):
             time.sleep(2)
             # Put the order data in a dictionary
             payload = dict({'table_id': order['table_id'], 'order_id': order['order_id'], 'items': order['items'], 'priority': order['priority']})
-            requests.post('http://localhost:3000/distribution', json = payload, timeout = 0.0001)
+            requests.post('http://dininghall:3000/distribution', json = payload, timeout = 0.0001)
             order_queue.task_done()
         except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError):
             pass

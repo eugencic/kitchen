@@ -6,7 +6,7 @@ cooks = [
         "rank": 3,
         "proficiency": 4,
         "name": "Gordon Ramsay",
-        "catch-phrase": "Hey, panini head, are you listening to me?"
+        "catch-phrase": "My gran could do better"
     }, 
     
     {
@@ -22,7 +22,7 @@ cooks = [
         "rank": 2,
         "proficiency": 2,
         "name": "Alain Ducasse",
-        "catch-phrase": "I have 17 Michelin Stars"
+        "catch-phrase": "Desserts are like mistresses"
     },
     
     {
@@ -30,6 +30,6 @@ cooks = [
         "rank": 1,
         "proficiency": 2,
         "name": "Pierre Gagnaire",
-        "catch-phrase": "I have 14 Michelin Stars"
+        "catch-phrase": "Cooking is storytelling"
     }
 ]

@@ -11,6 +11,7 @@ app = Flask(__name__)
 # Array to store the threads
 threads = []
 
+# App route
 @app.route('/order', methods = ['GET', 'POST'])
 
 def order():
@@ -20,6 +21,7 @@ def order():
     return {'success': True}
 
 def add_order(order):
+    # Put the received data in a dict
     received_order = {
         'order_id': order['order_id'],
         'table_id': order['table_id'],
@@ -30,14 +32,19 @@ def add_order(order):
         'wait_time': order['max_wait'],
         'pick_up_time': order['pick_up_time'],
         'receive_time': time.time(),
-        'cooked_foods': 0,
-        'cooking_details': []
+        'cooking_details': [],
+        'cooked_foods': 0
     }
-    order_queue.append(received_order)
-    for id in received_order['items']:
-        order_item = next((item for i, item in enumerate(menu) if item['id'] == id), None)
+    # Put the food from order for preparing
+    for item_id in received_order['items']:
+        order_item = None
+        for i, item in enumerate(menu):
+            if item['id'] == item_id:
+                order_item = item
         if order_item is not None:
-            ordered_food_queue.put({'order_id': order['order_id'], 'id': order_item['id']})
+            ordered_food_queue.put({'id': order_item['id'], 'order_id': order['order_id']})
+    # Put the order in a queue
+    order_queue.append(received_order)
     
 def run_kitchen():
     kitchen_thread = Thread(target=lambda: app.run(host = '0.0.0.0', port = 8000, debug = False, use_reloader = False), daemon = True)

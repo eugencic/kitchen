@@ -25,10 +25,10 @@ class Cook(Thread):
             self.cook_proficiency()    
           
     def cook_proficiency(self):
+      while True:
         for i in range(self.proficiency):
             cooking_thread = Thread(target = self.cook_order, name = f'{self.name} - Task {i}\n')
             cooking_thread.start() 
-            cooking_thread.join()
                               
     # Method to cook an order
     def cook_order(self):

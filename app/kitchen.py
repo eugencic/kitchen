@@ -45,6 +45,10 @@ def add_order(order):
             ordered_food_queue.put({'id': order_item['id'], 'order_id': order['order_id']})
     # Put the order in a queue
     order_queue.append(received_order)
+    # Sort the orders by priority
+    def get_priority(item):
+        return item['priority']
+    order_queue = order_queue(key = get_priority)
     
 def run_kitchen():
     kitchen_thread = Thread(target=lambda: app.run(host = '0.0.0.0', port = 8000, debug = False, use_reloader = False), daemon = True)

@@ -18,13 +18,18 @@ class Cook(Thread):
         self.proficiency = data['proficiency']
         self.name = data['name']
         self.catch_phrase = data['catch-phrase']
-
     # Represent the thread's activity
     def run(self):
         while True:
             # Execute the function to cook an order
-            self.cook_order()
-            
+            self.cook_proficiency()    
+          
+    def cook_proficiency(self):
+        for i in range(self.proficiency):
+            cooking_thread = Thread(target = self.cook_order, name = f'{self.name} - Task {i}\n')
+            cooking_thread.start() 
+            cooking_thread.join()
+                              
     # Method to cook an order
     def cook_order(self):
         try:
@@ -80,4 +85,4 @@ class Cook(Thread):
                 ordered_food_queue.put(food)
         # Exceptions
         except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError):
-            pass
+            pass 

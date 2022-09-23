@@ -46,24 +46,28 @@ def add_order(order):
     # Put the order in a queue
     order_queue.append(received_order)
     # Sort the orders by priority
-    def get_priority(item):
-        return item['priority']
-    order_queue = order_queue(key = get_priority)
-    
+    def get_priority(priority_key):
+        return priority_key['priority']
+    order_queue.sort(key = get_priority)
+  
 def run_kitchen():
     kitchen_thread = Thread(target=lambda: app.run(host = '0.0.0.0', port = 8000, debug = False, use_reloader = False), daemon = True)
     kitchen_thread.start()
     for _, cook in enumerate(cooks):
         # Create thread Client
         cook_thread = Cook(cook)
+        cook_thread.start()
+        cook_thread.join()
         # Add the thread to the array
-        threads.append(cook_thread)
+        #threads.append(cook_thread)
     # Start the threads
-    for thread in threads:
-        thread.start()
+    #for thread in threads:
+        #thread.start()
     # Wait for the threads to complete    
-    for thread in threads:
-        thread.join()
+    #for thread in threads:
+        #thread.join()
+    while True:
+        pass
         
 
 if __name__ == '__main__':

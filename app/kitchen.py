@@ -21,6 +21,7 @@ def order():
     return {'success': True}
 
 def add_order(order):
+    priority = (-int(order['priority']))
     # Put the received data in a dict
     received_order = {
         'order_id': order['order_id'],
@@ -42,13 +43,8 @@ def add_order(order):
             if item['id'] == item_id:
                 order_item = item
         if order_item is not None:
-            ordered_food_queue.put({'id': order_item['id'], 'order_id': order['order_id']})
-    # Put the order in a queue
+            ordered_food_queue.put(({'id': order_item['id'], 'order_id': order['order_id'], 'priority': int(order['priority'])}))
     order_queue.append(received_order)
-    # Sort the orders by priority
-    #def get_priority(priority_key):
-        #return priority_key['priority']
-    #order_queue.sort(key = get_priority)
   
 def run_kitchen():
     kitchen_thread = Thread(target=lambda: app.run(host = '0.0.0.0', port = 8000, debug = False, use_reloader = False), daemon = True)
@@ -59,16 +55,6 @@ def run_kitchen():
         cook_thread = Cook(cook)
         # Add the thread to the array
         cook_thread.start()
-        #threads.append(cook_thread)
-    # Start the threads
-    #for thread in threads:
-        #thread.start()
-    # Wait for the threads to complete    
-    #for thread in threads:
-        #thread.join()
-     while True:
-        pass
-        
 
 if __name__ == '__main__':
     run_kitchen()

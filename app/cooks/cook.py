@@ -21,17 +21,18 @@ class Cook(Thread):
     # Represent the thread's activity
     def run(self):
         while True:
-            # Execute the function to cook an order
+            # Execute the function to cook foods
             self.cook_proficiency()    
-          
+    
+    # Cook foods according to proficiency
     def cook_proficiency(self):
-      while True:
         for i in range(self.proficiency):
-            cooking_thread = Thread(target = self.cook_order, name = f'{self.name} - Task {i}\n')
+            # Create a thread to cook a food
+            cooking_thread = Thread(target = self.cook_food, name = f'Cook {self.name} (task {i})')
             cooking_thread.start() 
                               
     # Method to cook an order
-    def cook_order(self):
+    def cook_food(self):
         try:
             # Get a food item from the queue
             food = ordered_food_queue.get()
@@ -78,6 +79,7 @@ class Cook(Thread):
                         'cooking_time': int(finished_cooking_time) - int(order_queue[food_order_id]['receive_time']),
                         'cooking_details': order_queue[food_order_id]['cooking_details']
                     })
+                    # Send the order to the dining hall
                     requests.post('http://localhost:3000/distribution', json = payload, timeout = 0.0001)
                     # requests.post('http://dininghall:3000/distribution', json = payload, timeout = 0.0001)
             # If the cook cannot prepare the food, put it back in the queue

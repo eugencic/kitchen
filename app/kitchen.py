@@ -8,20 +8,17 @@ from components.cooks import cooks
 # Create a Flask object called app
 app = Flask(__name__)
 
-# Array to store the threads
-threads = []
-
 # App route
 @app.route('/order', methods = ['GET', 'POST'])
 
 def order():
     data = request.get_json()
+    # Add the order in queue
     add_order(data)
     print(f'A new order is received from the waiter. Order nr.{data["order_id"]}.\n')
     return {'success': True}
 
 def add_order(order):
-    priority = (-int(order['priority']))
     # Put the received data in a dict
     received_order = {
         'order_id': order['order_id'],
@@ -43,18 +40,19 @@ def add_order(order):
             if item['id'] == item_id:
                 order_item = item
         if order_item is not None:
+            # Put the food in queue
             ordered_food_queue.put(({'id': order_item['id'], 'order_id': order['order_id'], 'priority': int(order['priority'])}))
     order_queue.append(received_order)
   
 def run_kitchen():
     kitchen_thread = Thread(target=lambda: app.run(host = '0.0.0.0', port = 8000, debug = False, use_reloader = False), daemon = True)
+    # Start the thread
     kitchen_thread.start()
-    while True:
-     for _, cook in enumerate(cooks):
-        # Create thread Client
+    for _, cook in enumerate(cooks):
+        # Create Cook threads
         cook_thread = Cook(cook)
-        # Add the thread to the array
+        # Start the threas
         cook_thread.start()
-
+    
 if __name__ == '__main__':
     run_kitchen()

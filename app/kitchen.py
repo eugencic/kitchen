@@ -54,6 +54,7 @@ def run_kitchen():
     # Start the thread
     kitchen_thread.start()
     while True:
+        # Don't allow more than 10 active threads
         while threading.active_count() > 10:
             time.sleep(1)
         for _, cook in enumerate(cooks):

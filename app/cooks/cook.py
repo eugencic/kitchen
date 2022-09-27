@@ -81,8 +81,8 @@ class Cook(Thread):
                         'cooking_details': order_queue[food_order_id]['cooking_details']
                     })
                     # Send the order to the dining hall
-                    requests.post('http://localhost:3000/distribution', json = payload, timeout = 0.0001)
-                    # requests.post('http://dininghall:3000/distribution', json = payload, timeout = 0.0001)
+                    #requests.post('http://localhost:3000/distribution', json = payload, timeout = 0.0001)
+                    requests.post('http://dininghall:3000/distribution', json = payload, timeout = 0.0001)
             # If the cook cannot prepare the food, put it back in the queue
             else:
                 ordered_food_queue.put(Prioritize(priority, food))

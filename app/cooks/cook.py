@@ -20,9 +20,8 @@ class Cook(Thread):
         self.catch_phrase = data['catch-phrase']
     # Represent the thread's activity
     def run(self):
-        while True:
             # Execute the function to cook foods
-            self.cook_proficiency()    
+            self.cook_proficiency()   
     
     # Cook foods according to proficiency
     def cook_proficiency(self):
@@ -34,7 +33,6 @@ class Cook(Thread):
     # Method to cook an order
     def cook_food(self):
         try:
-          #with suppress(Empty):
             # Get a food item from the queue
             food = ordered_food_queue.get().ready_item
             # Priority of the item

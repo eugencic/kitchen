@@ -47,16 +47,20 @@ def add_order(order):
             # Put the food in queue
             ordered_food_queue.put(Prioritize(priority, ready_item))
     order_queue.append(received_order)
-  
+ 
+threads = [] 
 def run_kitchen():
     kitchen_thread = Thread(target=lambda: app.run(host = '0.0.0.0', port = 8000, debug = False, use_reloader = False), daemon = True)
     # Start the thread
     kitchen_thread.start()
-    for _, cook in enumerate(cooks):
+    while True:
+        while threading.active_count() > 10:
+            time.sleep(1)
+        for _, cook in enumerate(cooks):
         # Create Cook threads
-        cook_thread = Cook(cook)
-        # Start the threas
-        cook_thread.start()
-    
+         cook_thread = Cook(cook)
+        # Start the thread
+         cook_thread.start()
+
 if __name__ == '__main__':
     run_kitchen()

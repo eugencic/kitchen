@@ -26,7 +26,7 @@ def add_order(order):
         'waiter_id': order['waiter_id'],
         'items': order['items'],
         'items_number': len(order['items']),
-        'priority': order['priority'],
+        'priority': int(order['priority']),
         'wait_time': order['max_wait'],
         'pick_up_time': order['pick_up_time'],
         'receive_time': time.time(),
@@ -40,8 +40,12 @@ def add_order(order):
             if item['id'] == item_id:
                 order_item = item
         if order_item is not None:
+            # Priority
+            priority = -(int(order['priority']))
+            # The item
+            ready_item = {'id': order_item['id'], 'order_id': order['order_id'], 'priority': int(order['priority'])}
             # Put the food in queue
-            ordered_food_queue.put(({'id': order_item['id'], 'order_id': order['order_id'], 'priority': int(order['priority'])}))
+            ordered_food_queue.put(Prioritize(priority, ready_item))
     order_queue.append(received_order)
   
 def run_kitchen():

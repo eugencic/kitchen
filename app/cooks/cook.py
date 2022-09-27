@@ -34,8 +34,11 @@ class Cook(Thread):
     # Method to cook an order
     def cook_food(self):
         try:
+          #with suppress(Empty):
             # Get a food item from the queue
-            food = ordered_food_queue.get()
+            food = ordered_food_queue.get().ready_item
+            # Priority of the item
+            priority = -(int(food['priority']))
             # Get the food information from the menu
             food_info = None
             for info in menu:
@@ -84,7 +87,7 @@ class Cook(Thread):
                     # requests.post('http://dininghall:3000/distribution', json = payload, timeout = 0.0001)
             # If the cook cannot prepare the food, put it back in the queue
             else:
-                ordered_food_queue.put(food)
+                ordered_food_queue.put(Prioritize(priority, food))
         # Exceptions
         except (requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError):
             pass 

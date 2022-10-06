@@ -1,7 +1,7 @@
 from flask import Flask, request
 from components.orders import *
 from components.foods import menu
-from cooks.cook import *
+from cook.cook import *
 from threading import Thread
 from components.cooks import cooks
 
@@ -15,7 +15,7 @@ def order():
     data = request.get_json()
     # Add the order in queue
     add_order(data)
-    print(f'A new order is received from the waiter. Order nr.{data["order_id"]}.\n')
+    print(f'A new order is received from the waiter. Order nr.{data["order_id"]}\n')
     return {'success': True}
 
 def add_order(order):

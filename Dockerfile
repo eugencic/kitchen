@@ -14,4 +14,4 @@ COPY /app .
 EXPOSE 8000
 
 # Run the application
-CMD ["python", "kitchen.py"]
+CMD ["python", "-u", "kitchen.py"]

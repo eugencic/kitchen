@@ -3,7 +3,6 @@ version: '3'
 services:
   kitchen:
     image: kitchen
-    container_name: kitchen
     ports:
       - "8000:8000"
 networks:

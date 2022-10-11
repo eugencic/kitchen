@@ -30,6 +30,7 @@ class Cook(Thread):
             # Create a thread to cook a food
             cooking_thread = Thread(target = self.cook_food, name = f'Cook {self.name} - Task {i}')
             cooking_thread.start() 
+            cooking_thread.join()
                               
     # Method to cook an order
     def cook_food(self):
@@ -57,8 +58,11 @@ class Cook(Thread):
                 # Check the required cooking apparatus for the food
                 cooking_apparatus = food_info['cooking-apparatus']
                 if cooking_apparatus == 'stove':
+                    # Wait till there is an available stove
+                    while stoves_queue.empty() == True:
+                        time.sleep(1)
                     # Check if there are any available stoves
-                    while stoves_queue.empty() == False:
+                    if stoves_queue.empty() == False:
                         # Use the stove
                         stoves_queue.get()
                         # Output message
@@ -72,16 +76,19 @@ class Cook(Thread):
                             time.sleep(1)
                         # Wait until the thread ends
                         stove_thread.join()
-                        print(f'The food in the stove is cooked\n')
-                        if stoves_queue.qsize() <= 1:
+                        if stoves_queue.full() == False:
+                            print(f'The food in the stove is cooked\n')
                             print(f'The {food_info["name"]} (nr.{food_info["id"]}) is ready. A stove is free\n')
                             # Release a stove
                             stoves_queue.task_done()
                             # Add it back in the queue
-                            stoves_queue.put(0)
+                        stoves_queue.put(0)
                 elif cooking_apparatus == 'oven':
+                    # Wait till the is an available stove
+                    while ovens_queue.empty() == True:
+                        time.sleep(1)
                     # Check if the oven is available
-                    while ovens_queue.empty() == False:
+                    if ovens_queue.empty() == False:
                         # Use the oven
                         ovens_queue.get()
                         # Output message

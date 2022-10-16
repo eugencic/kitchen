@@ -3,7 +3,7 @@
 ## Kitchen
 
 This is the `kitchen` of the restaurant simulation of the first laboratory work at Network Programming course.
-The `dining hall` part: https://github.com/eugencic/utm-restaurant-dininh-hall
+The `dining hall` part: https://github.com/eugencic/utm-restaurant-dining-hall
 
 ## Main Task
 

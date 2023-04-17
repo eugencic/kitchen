@@ -1,4 +1,4 @@
-# Network Programming laboratory No.1
+# Network Programming laboratory Nr.1
 
 ## Kitchen
 

@@ -1,9 +1,9 @@
-# PR laboratory No.1
+# Network Programming laboratory No.1
 
 ## Kitchen
 
 This is the `kitchen` of the restaurant simulation of the first laboratory work at Network Programming course.
-The `dining hall` part: https://github.com/eugencic/utm-restaurant-dining-hall
+The `dining hall` part: https://github.com/eugencic/dining-hall
 
 ## Main Task
 
@@ -20,7 +20,7 @@ The `dining hall` generates `orders` and sends them to the `kitchen`, which prep
 
 ### Clone the repository
 ```bash
-$ git clone https://github.com/eugencic/utm-restaurant-kitchen
+$ git clone https://github.com/eugencic/kitchen
 ```
 
 ### Docker  
